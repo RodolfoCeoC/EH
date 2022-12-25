@@ -1,5 +1,3 @@
-#This project was made using the nmap3 module
-
 import sys
 import time
 import nmap3
@@ -22,36 +20,37 @@ def version(target,nmap):
     results = results.get('ports')
 
     for i in results:
+        print("-"*50)
         protocol = i.get('protocol')
         port = i.get('portid')
         state = i.get('state')
         service = i.get('service')
+        print("Protocol => {}".format(protocol))
+        print("Port => {}".format(port))
+        print("State => {}".format(state))
         
         for services in service.keys():
             if 'name' in services:
                 name = service['name']
+                print("Name => {}".format(name))
                 
             else:
-                name = "It was not found"
+                name = ""
             
             if 'product' in services:
                 product = service['product']
+                print("Product => {}".format(product))
                 
             else:
-                product = "It was not found"
+                product = ""
             
             if 'version' in services:
                 version = service['version']
+                print("Version => {}".format(version))
                 
             else:
-                version = "It was not found"     
-            
-            print("Protocol => {}".format(protocol))
-            print("Port => {}".format(port))
-            print("State => {}".format(state))
-            print("Name => {}".format(name))
-            print("Product => {}".format(product))
-            print("Version => {}".format(version),"\n"+"-"*50,end="\n")
+                version = ""
+            time.sleep(0.08)
 
 
 def switch():
@@ -65,7 +64,7 @@ Select Scan Type:
 """
     print(options)
     number = 2
-    target = "192.168.0.24"#input("Enter the IP Address: ")
+    target = "192.168.0.27"#input("Enter the IP Address: ")
     nmap = nmap3.Nmap()
 
     match number:
