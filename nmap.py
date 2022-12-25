@@ -1,5 +1,6 @@
-#This code was created using the nmap3 module
+#This program was created using the nmap3 module
 
+from termcolor import colored, cprint
 import sys
 import time
 import nmap3
@@ -119,21 +120,22 @@ def host_discovery(target,nmap):
 
 
 def switch():
-    options = """
+    options = colored("""
 Select Scan Type:
 [1]. OS Detection
 [2]. Service Version Detection
 [3]. Top Ports
 [4]. Syn Scan
 [5]. Exit
-"""
+""","yellow")
     print(options)
-    number = int(input("Choose a number: "))
+    number = int(input(colored("Choose a number: ","red",attrs=["bold"])))
 
-    if number != 5:
-        target = input("Enter the IP Address: ")
-    else:
+    if number != [1, 2, 3, 4]:
         pass
+      
+    else:
+        target = input(colored("Enter the IP Address: ","blue"))
     
     nmap = nmap3.Nmap()
 
@@ -152,21 +154,20 @@ Select Scan Type:
 
 
 def main():
-    welcome = """
-**Welcome to NMAP!**
-
+    cprint("Welcome to NMAP!", "white", "on_magenta",attrs=["bold"])
+    welcome = colored("""
 Choose an option:
 [1]. Scan
 [2]. Host Discovery
 [3]. Exit
-"""
+""","blue",attrs=["bold"])
     print(welcome)
-    number = int(input("Choose an option: "))
+    number = int(input(colored("Choose an option: ","green")))
     
     if number == 1:
         switch()
     elif number == 2:
-        target = input("Enter the ip address: ")
+        target = input(colored("Enter the ip address: ","white",attrs=["bold"]))
         nmap = nmap3.NmapHostDiscovery()
         host_discovery(target,nmap)
     else:
