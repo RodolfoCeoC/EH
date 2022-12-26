@@ -25,14 +25,14 @@ def sha256(word):
 def sha512(word):
     encrypt_sha512 = hashlib.sha512(word)
     encrypt_sha512 = encrypt_sha512.hexdigest()
-    print("*"*len(encrypt_sha512)+"\n"+encrypt_sha512)
+    print("-"*len(encrypt_sha512)+"\n"+encrypt_sha512)
 
 
 def main():
     options = """
 Encryptor
 
-[1]. MDS
+[1]. MD5
 [2]. SHA1
 [3]. SHA256
 [4]. SHA512
