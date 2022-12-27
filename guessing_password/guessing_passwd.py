@@ -1,4 +1,4 @@
-# +++ This code is to decrypt encrypted words using shalib +++
+# +++ This code is to decrypt encrypted words using hashlib +++
 
 import hashlib
 import sys
