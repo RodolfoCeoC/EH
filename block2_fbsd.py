@@ -12,6 +12,11 @@ ip_firewall = []
 LOGFILE = "/var/log/suricata/fast.log"
 PF = "/etc/pf.conf"
 
+def reiniciar_pf():
+    reiniciar_pf = f"service pf restart" # Reiniciamos el servicio de packet filter
+    subprocess.run(reiniciar_pf, shell=True, check=True)
+
+
 def main(): 
     file = open(LOGFILE,"r")
     logs = file.read()
@@ -30,21 +35,21 @@ def main():
     if os.path.getsize(PF) == 0:
         conjunto = set(ip_result)
         no_rep = list(conjunto)
-        
+
         for ip_res in no_rep:
             preparar_ip = f"block in from {ip_res}"
             enviar_ip = f"echo {preparar_ip} >> /etc/pf.conf"
             subprocess.run(enviar_ip, shell=True, check=True)
-            
-        reiniciar_pf = f"service pf restart" # Reiniciamos el servicio de packet filter
-        subprocess.run(reiniciar_pf, shell=True, check=True)
+
+        reiniciar_pf()
+
 
     else:
         with open(PF, 'r') as fw_pf: #Abrimos el archivo pf.conf de freebsd
             contenido = fw_pf.read()
             contenido = contenido.replace(" ", "")
             contenido = contenido.split()
-            
+
             for j in contenido:
                 block_firewall = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', j)
                 block_firewall = block_firewall.group(0)
@@ -60,6 +65,8 @@ def main():
             resultado = f"block in from {ip}"
             ip_maliciosa = f"echo {resultado} >> /etc/pf.conf"
             subprocess.run(ip_maliciosa, shell=True, check=True)
+        
+        reiniciar_pf()
 
 
 if __name__ == '__main__':
