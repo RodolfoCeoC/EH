@@ -1,4 +1,4 @@
-# Script para bloquear direcciones ip en suricata de FreeBSD
+# Script para simular el modo IPS de Suricata en Freebsd
 
 import sys
 import subprocess
