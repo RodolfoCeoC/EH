@@ -37,7 +37,7 @@ def main():
         if os.path.getsize(PF) == 0:
             conjunto = set(ip_result)
             no_rep = list(conjunto)
-            print("El archivo pf.conf está vacio. Enviando direcciones ip nuevas")
+            print("El archivo pf.conf está vacio.")
 
             for ip_res in no_rep:
                 print(f"La dirección ip {ip_res} fue bloqueada")
@@ -50,21 +50,24 @@ def main():
 
         else:
             with open(PF, 'r') as fw_pf: #Abrimos el archivo pf.conf de freebsd
-                contenido = fw_pf.read()
-                contenido = contenido.replace(" ", "")
-                contenido = contenido.split()
-
+                contenido = fw_pf.readlines()
+                
                 for j in contenido:
                     block_firewall = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', j)
-                    block_firewall = block_firewall.group(0)
-                    #print(block_firewall)
-                    ip_firewall.append(block_firewall) # Mandamos los resultados del firewall a una lista                
+                    
+                    if block_firewall is not None:
+                        block_firewall = block_firewall.group(0)
+                        ip_firewall.append(block_firewall) # Mandamos los resultados del firewall a una lista
+                    
+                    else:
+                        block_firewall = None
+                    #print(block_firewall)             
 
             # Comparamos si hay resultados repetidos en ambas listas
-            elementos_no_repetidos = list(set(ip_result) ^ set(ip_firewall))
+            elementos_no_repetidos = list(set(ip_firewall) ^ set(ip_result))
             
             if not elementos_no_repetidos:
-                print("No hay direcciones ip nuevas")
+                pass
             
             else:
                 pass
@@ -78,7 +81,7 @@ def main():
         
                 reiniciar_pf()
                 
-            time.sleep(10)
+            time.sleep(2)
 
 
 if __name__ == '__main__':
