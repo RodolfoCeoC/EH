@@ -53,15 +53,15 @@ def main():
                 contenido = fw_pf.readlines()
                 
                 for j in contenido:
-                    block_firewall = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', j)
+                    if "block in from" in j:
+                        block_firewall = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', j)
                     
-                    if block_firewall is not None:
-                        block_firewall = block_firewall.group(0)
-                        ip_firewall.append(block_firewall) # Mandamos los resultados del firewall a una lista
-                    
-                    else:
-                        block_firewall = None
-                    #print(block_firewall)             
+                        if block_firewall is not None:
+                            block_firewall = block_firewall.group(0)
+                            ip_firewall.append(block_firewall) # Mandamos los resultados del firewall a una lista
+                        
+                        else:
+                            block_firewall = None          
 
             # Comparamos si hay resultados repetidos en ambas listas
             elementos_no_repetidos = list(set(ip_firewall) ^ set(ip_result))
